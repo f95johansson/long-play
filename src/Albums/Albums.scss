@@ -1,0 +1,96 @@
+
+
+#albums {
+    padding: 36px;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+
+    .nav {
+        font-family: 'Noir';
+        font-weight: normal;
+        width: 100%;
+        text-align: center;
+
+        span {
+            font-size: 36px;
+            color: rgba(white, .5);
+            transition: color .2s, font-size .2s, font-weight .05s;
+        }
+
+        .active {
+            font-weight: 500;
+            color: white;
+        }
+    }
+
+
+    .stack {
+        width: 266px;
+        height: 304px;
+        position: relative;
+        display: inline-block;
+        margin: 34px 17px 76px 17px;
+
+        .covers {
+            position: relative;
+
+        }
+
+        .album {
+            position: absolute;
+            width: 186px;
+            height: 186px;
+            top: 0px;
+            left: 40px;
+            box-shadow: 0 0 4px rgba(black, .5);
+            transition: top .2s, width .2s, height .2s, left .2s;
+
+            &:nth-last-child(1) {
+                top: 38px;
+                width: 266px;
+                height: 266px;
+                left: 0;
+            }
+
+            &:nth-last-child(2) {
+                top: 27px;
+                width: 250px;
+                height: 250px;
+                left: 8px;
+            }
+
+            &:nth-last-child(3) {
+                top: 18px;
+                width: 230px;
+                height: 230px;
+                left: 18px
+            }
+
+            &:nth-last-child(4) {
+                top: 11px;
+                width: 210px;
+                height: 210px;
+                left: 28px;
+            }
+
+            &:nth-last-child(5) {
+                top: 4px;
+                width: 198px;
+                height: 198px;
+                left: 34px;
+            }
+        }
+
+        .label {
+            font-family: 'Noir';
+            font-weight: 500;
+            font-size: 100px;
+            position: absolute;
+            bottom: -44px;
+            left: 16px;
+            text-shadow: 0 0 8px rgba(black, .5);
+            z-index: 1;
+        }
+    }
+}

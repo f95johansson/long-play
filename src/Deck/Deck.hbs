@@ -1,0 +1,13 @@
+<ul class="albums">
+  {{#each albums}}
+    <li class="album"><img src={{this.images.0.url}}></li>
+  {{/each}}
+</ul>
+
+<div class="nav">
+    <span class="tab recent {{#ifCond active '==' 'recent'}}active{{/ifCond}}">Recent</span>
+    <span> | </span>
+    <span class="tab top-plaid {{#ifCond active '==' 'top-plaid'}}active{{/ifCond}}">Top Plaid</span>
+    <span> | </span>
+    <span class="tab favourites {{#ifCond active '==' 'favourites'}}active{{/ifCond}}">Favourites</span>
+</div>

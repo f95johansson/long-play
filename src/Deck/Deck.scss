@@ -1,0 +1,42 @@
+
+#deck {
+
+    height:  348px;
+    max-width: 1240px;
+    box-sizing: border-box;
+    background-color: rgba(black, .25);
+    border-radius: 12px;
+    margin: 40px auto;
+    padding: 40px 47px;
+    position: relative;
+
+    .album {
+        width: 260px;
+        height: 260px;
+        display: inline-block;
+        margin-left: 12px;
+
+        &:first-child {
+            margin-left: 0px;            
+        }
+    }
+
+    .nav {
+        position: absolute;
+        bottom: -15px;
+        font-family: 'Noir';
+        font-weight: normal;
+
+        span {
+            font-size: 24px;
+            color: rgba(white, .5);
+            transition: color .2s, font-size .2s;
+        }
+
+        .active {
+            font-weight: 500;
+            font-size: 43px;
+            color: white;
+        }
+    }
+}

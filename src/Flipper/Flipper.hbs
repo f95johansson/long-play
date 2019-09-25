@@ -1,0 +1,27 @@
+<div class="flip-container">
+    <div class="flipper">
+        <div class="front">
+            <!-- front content -->
+            <img src={{ albumCover }} >
+        </div>
+        <div class="back">
+            <img class="album-cover" src={{ albumCover }} >
+            <div class="skrim" style="background-color: {{ coverColor }}"></div>
+            <div class="content">
+                <span class="band-name">{{ album.artists.0.name }}</span>
+                <span class="album-name">{{removeRemaster album.name }}</span>
+                <ul class="track-list">
+                    {{#each album.tracks.items }}
+                        <li class="track">
+                            <span class="number">{{ track_number }}</span>
+                            <span class="title">{{removeRemaster name }}</span>
+                            <span class="length">{{msToMin duration_ms }}</span>
+                        </li>
+                    {{/each}}
+                <ul>
+                <span class="year">{{onlyYear album.release_date }}</span>
+                <span class="copyright">{{ album.copyrights.0.text}}</span>
+            </div>
+        </div>
+    </div>
+</div>

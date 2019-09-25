@@ -1,0 +1,92 @@
+#player {
+    position: fixed;
+    bottom: 400px;
+    left: 0;
+    background-color: #190511;
+    width: 602px;
+    height: 86px;
+    border-top-right-radius: 11px;
+    z-index: 3;
+    box-shadow: 0 2px 40px rgba(black, .5);
+    transition: transform .3s;
+    transform: translateY(400px);
+
+    &.loaded {
+
+    }
+
+    &.expanded {
+        transform: translateY(0);
+    }
+
+    .album-art {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        position: absolute;
+        top: -70px;
+        left: 32px;
+        animation: spinner 16s linear infinite;
+    }
+
+    .display {
+        color: white;
+        font-family: 'CF Dots 521', sans-serif;
+        font-size: 25px;
+        width: 400px;
+        margin-left: 190px;
+        white-space: nowrap;
+        line-height: 74px;
+        overflow: hidden;
+        margin-bottom: 12px;
+        height: 74px;
+
+        .track-info {
+            float: left;
+            padding: 0 20px;
+
+            &:first-child {
+                animation: carousel1 10s linear infinite;
+            }
+
+            &:nth-child(2) {
+                animation: carousel2 10s linear infinite;
+                margin-top: -74px;
+            }
+        }
+    }
+
+    .spotify-player {
+        width: 100%;
+        height: 400px;
+        background-color: black;
+    }
+}
+
+@keyframes spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+@keyframes carousel1 {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes carousel2 {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
