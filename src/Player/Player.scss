@@ -1,6 +1,6 @@
 #player {
     position: fixed;
-    bottom: 400px;
+    bottom: -85px;
     left: 0;
     background-color: #190511;
     width: 602px;
@@ -9,24 +9,53 @@
     z-index: 3;
     box-shadow: 0 2px 40px rgba(black, .5);
     transition: transform .3s;
-    transform: translateY(400px);
+    transform: translateY(0px);
 
-    &.loaded {
-
+    &.active {
+        transform: translateY(-84px);
     }
 
     &.expanded {
-        transform: translateY(0);
+        transform: translateY(-460px);
+    }
+
+    &:not(.expanded) .album-art svg {
+        display: none;
+    }
+
+    &:hover .album-art svg {
+        display: block;
     }
 
     .album-art {
         width: 140px;
         height: 140px;
-        border-radius: 50%;
         position: absolute;
         top: -70px;
         left: 32px;
-        animation: spinner 16s linear infinite;
+
+        svg {
+            fill: white;
+            width: 48px;
+            height: 48px;
+            position: absolute;
+            top: calc(50% - 24px);
+            left: calc(50% - 24px);
+            filter: drop-shadow( 0px 0px 4px rgba(0, 0, 0, 0.5));
+        }
+
+        &:not(.playing) .pause_circle_filled {
+            display: none;
+        }
+
+        &.playing .play_circle_filled {
+            display: none;
+        }
+
+        .cover {
+            border-radius: 50%;
+            animation: spinner 16s linear infinite;
+        }
     }
 
     .display {
@@ -43,16 +72,83 @@
 
         .track-info {
             float: left;
-            padding: 0 20px;
+            padding: 0 120px;
 
             &:first-child {
-                animation: carousel1 10s linear infinite;
+                animation: carousel1 15s linear infinite;
             }
 
             &:nth-child(2) {
-                animation: carousel2 10s linear infinite;
+                animation: carousel2 15s linear infinite;
                 margin-top: -74px;
             }
+        }
+    }
+
+    .content {
+        width: 100%;
+        height: 400px;
+        background-color: #190511;
+        text-align: center;
+
+        .artist-name {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        .album-name {
+            font-size: 24px;
+            display: block;
+            padding-top: 10px;
+            margin-bottom: 5px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 514px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .track-list {
+            font-size: 21px;
+            width: 100%;
+            height: 296px;
+            padding: 0 20px 20px 20px;
+            box-sizing: border-box;
+            text-align: left;
+            overflow-y: scroll;
+        }
+
+        .track {
+            height: 30px;
+            line-height: 30px;
+
+
+            &.active {
+                color: black;
+                background: white;
+                border-radius: 2px;
+            }
+        }
+
+        .number {
+            margin-left: 24px;
+        }
+
+        .title {
+            display: inline-block;
+            margin-left: 16px;
+            width: 312px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            vertical-align: bottom; // because the overflow in .title makes the .number have a lower baseline
+        }
+
+        .length {
+            float: right;
+            margin-right: 27px;
         }
     }
 

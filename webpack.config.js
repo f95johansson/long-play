@@ -1,4 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
+
+const prod = process.argv.indexOf('-p') !== -1 || 
+             process.argv.indexOf('-prod') !== -1 ||
+             process.argv.indexOf('--prod') !== -1 ||
+             process.argv.indexOf('--production') !== -1;
 
 module.exports = {
   entry: './src/App/App.js',
@@ -9,9 +15,22 @@ module.exports = {
 
   module: {
     rules: [
-      // Images
+      // Inline svg
       {
-        test: /\.(png|jpe?g|gif|html|svg)$/i,
+        test: /.*\/svgs\/.*\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      // Url svg
+      {
+        test: /.*\/images\/.*\.svg$/,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      },
+      // Files (Images, html)
+      {
+        test: /\.(png|jpe?g|gif|html)$/i,
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]',
@@ -64,6 +83,17 @@ module.exports = {
       path.resolve('./node_modules')
     ]
   },
+
+  plugins: [
+    new webpack.DefinePlugin({
+      process: {
+        env: {
+          ENV: prod? JSON.stringify('prod'): JSON.stringify('dev'),
+          DEV: prod? JSON.stringify(false): JSON.stringify(true)
+        }
+      }
+    })
+  ],
 
   devServer: {
     contentBase: path.join(__dirname, 'build'),

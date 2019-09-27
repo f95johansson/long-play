@@ -1,15 +1,39 @@
 
-{{#if playing }}
-    <img class="album-art" src="{{ albumCover}}" alt="Currently playing album art">
-{{/if}}
 
-<div class="display">
-    <h1 class="track-info">{{ trackInfo }}</h1>
-    <h1 class="track-info">{{ trackInfo }}</h1>
-</div>
+    {{#if loaded }}
+        <div class="album-art {{#if playing }}playing{{/if}}">
+            <img class="cover" src="{{ albumCover }}" alt="Currently playing album art">
+            {{{importSvg 'ic_pause_circle_filled_48px.svg' }}}
+            {{{importSvg 'ic_play_circle_filled_48px.svg' }}}
+        </div>
+    {{/if}}
 
+    <div class="display">
+        <h1 class="track-info">{{ trackInfo }}</h1>
+        <h1 class="track-info">{{ trackInfo }}</h1>
+    </div>
+
+    <div class="content">
+        {{#if loaded }}
+            <span class="album-name">{{removeRemaster album.name }}</span>
+            <span class="artist-name">{{removeRemaster album.artists.0.name }}</span>
+            <ul class="track-list">
+                {{#each album.tracks.items }}
+                    <li class="track {{#ifCond ../currentTrackNumber '==' track_number }}active{{/ifCond}}">
+                        <span class="number">{{ track_number }}</span>
+                        <span class="title">{{removeRemaster name }}</span>
+                        <span class="length">{{msToMin duration_ms }}</span>
+                    </li>
+                {{/each}}
+            <ul>
+        {{/if}}
+    </div>
+
+
+{{!--
 <div class="spotify-player">
-    {{#if playing }}
-        <iframe src="https://open.spotify.com/embed/album/{{ albumId}}" width="602" height="400" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    {{#if loaded }}
+        <iframe src="https://open.spotify.com/embed/album/{{ album.id }}" width="602" height="400" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     {{/if}}
 </div>
+--}}

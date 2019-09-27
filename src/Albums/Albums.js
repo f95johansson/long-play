@@ -12,7 +12,7 @@ class Albums extends Component {
         this.spotify = spotify;
         this.albumsById = {};
 
-        this.active = 'alphabet';
+        this.active = localStorage.getItem('long-play-album-menu') || 'alphabet';
 
         this.update();
 
@@ -20,7 +20,7 @@ class Albums extends Component {
     }
 
     update() {
-        let albums = this.spotify.getAlbumsGroupedList();
+        let albums = this.spotify.getAlbumsGroupedList(this.active);
         this.root.innerHTML = this.render({ albums: albums, active: this.active });
         
         this.root.querySelectorAll('.nav .tab').forEach(tab => tab.addEventListener('click', this.navSelect));
@@ -30,9 +30,11 @@ class Albums extends Component {
 
     navSelect(element) {
         let active = this.root.querySelector('.nav .active')
-        this.active = active.dataset.id;
         active.classList.remove('active');
         element.target.classList.add('active');
+        this.active = element.target.dataset.id;
+        localStorage.setItem('long-play-album-menu', this.active)
+        this.update();
     }
 
     flip(e) {

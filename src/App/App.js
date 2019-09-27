@@ -23,12 +23,13 @@ class App extends Component {
 
         this.flipper = new Flipper(this.spotify);
 
-        this.deck = new Deck(document.querySelector('#deck'));
+        this.deck = new Deck(document.querySelector('#deck'), this.flipper, this.spotify);
         this.albums = new Albums(document.querySelector('#albums'), this.flipper, this.spotify);
         this.player = new Player(document.querySelector('#player'), this.spotify);
 
 
         document.getElementById('login-button').addEventListener('click', this.login);
+        document.getElementById('logout-button').addEventListener('click', this.logout);
         this.checkLogin();
     }
 
@@ -37,12 +38,14 @@ class App extends Component {
 
     showLogin() {
         this.loggedIn = false;
-        document.getElementById('login-button').style.display = 'block';
+        document.getElementById('login-button').style.display = 'inline-block';
+        document.getElementById('logout-button').style.display = 'none';
     }
 
     removeLogin() {
         this.loggedIn = true;
         document.getElementById('login-button').style.display = 'none';
+        document.getElementById('logout-button').style.display = 'inline-block';
     }
 
     checkLogin() {
@@ -87,7 +90,7 @@ class App extends Component {
         console.log(redirectUri)
         var state = generateRandomString(16);
         localStorage.setItem(this.stateKey, state);
-        var scope = 'user-library-read user-read-recently-played';
+        var scope = 'user-library-read user-read-recently-played user-modify-playback-state user-read-currently-playing user-read-playback-state';
         var url = 'https://accounts.spotify.com/authorize';
         url += '?response_type=token';
         url += '&client_id=' + encodeURIComponent(clientId);
@@ -96,6 +99,11 @@ class App extends Component {
         url += '&state=' + encodeURIComponent(state);
         console.log(url)
         window.location = url;
+    }
+
+    logout() {
+      localStorage.removeItem(this.accessTokenKey);
+      window.location.reload();
     }
 }
 

@@ -2,6 +2,7 @@ import * as Vibrant from 'node-vibrant'
 import autoBind from 'auto-bind';
 
 import Component from 'Component';
+import { htmlToElement, childIndex } from 'Utils';
 
 import view from './Flipper.hbs';
 
@@ -80,7 +81,7 @@ class Flipper extends Component {
         this.flippers.push([flipperView, albumView]);
         this.active.querySelectorAll('.track').forEach(track => 
             track.addEventListener('click', e => {
-                this.spotify.play(album);
+                this.spotify.play(album, childIndex(e.target.closest('.track'))+1);
                 e.stopPropagation();
             }
         ));
@@ -114,13 +115,6 @@ class Flipper extends Component {
             }
         })
     }
-}
-
-function htmlToElement(html) {
-    var template = document.createElement('template');
-    html = html.trim();
-    template.innerHTML = html;
-    return template.content.firstChild;
 }
 
 export default Flipper;

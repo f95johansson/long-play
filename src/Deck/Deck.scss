@@ -1,20 +1,23 @@
 
 #deck {
-
-    height:  348px;
+    max-height:  348px;
     max-width: 1240px;
     box-sizing: border-box;
     background-color: rgba(black, .25);
     border-radius: 12px;
-    margin: 40px auto;
+    margin: auto;
     padding: 40px 47px;
     position: relative;
+    text-align: center;
 
     .album {
-        width: 260px;
-        height: 260px;
+        width: calc(25% - 9px); // 9 = 3 * 12px margins / 4 covers
+        height: calc(25% - 9px); 
+        max-width: 260px;
+        max-height: 260px;
         display: inline-block;
         margin-left: 12px;
+        box-shadow: 0 0 4px rgba(black, .5);
 
         &:first-child {
             margin-left: 0px;            
@@ -24,7 +27,7 @@
     .nav {
         position: absolute;
         bottom: -15px;
-        font-family: 'Noir';
+        font-family: 'Noir', sans-serif;
         font-weight: normal;
 
         span {

@@ -1,33 +1,49 @@
 import autoBind from 'auto-bind'
 
 import Component from 'Component';
+import { htmlToElement, childIndex } from 'Utils';
 
 import view from './Deck.hbs';
 import './Deck.scss';
 
 class Deck extends Component {
-    constructor(root) {
+    constructor(root, flipper, spotify) {
         super(view);
         autoBind(this);
 
         this.root = root;
+        this.flipper = flipper;
+        this.spotify = spotify;
 
-        let albums = [
-            noMeanCity,
-            foolForTheCity
-        ];
+        this.active = localStorage.getItem('long-play-deck-menu') || 'recent';
 
-        let active = 'recent'
+        this.spotify.onPlay(this.update)
+        
+        this.update();
+    }
 
-        root.innerHTML = this.render({albums, active});
+    update() {
+        let albums = this.spotify.getRecentlyPlayed();
+        this.root.innerHTML = this.render({albums, active: this.active});
+        this.root.querySelectorAll('.nav .tab').forEach(tab => tab.addEventListener('click', this.navSelect));
+        this.root.querySelectorAll('.album').forEach(stack => stack.addEventListener('click', this.flip));
+    }
 
-        root.querySelectorAll('.nav .tab').forEach(tab => tab.addEventListener('click', this.navSelect));
+   flip(e) {
+        this.flipper.flip(e.target, this.spotify.getRecentlyPlayed()[childIndex(e.target.parentElement)]);
+        e.stopPropagation()
+    }
 
+    addNewRecent(album) {
+        let albumsView = this.root.querySelector('.albums');
+        albumsView.insertBefore(htmlToElement(`<li class="album"><img src="${album.images[0].url}"></li>`), albumsView.firstElementChild);
     }
 
     navSelect(element) {
         this.root.querySelector('.nav .active').classList.remove('active');
         element.target.classList.add('active');
+        this.active = element.target.dataset.id;
+        localStorage.setItem('long-play-deck-menu', this.active);
     }
 }
 

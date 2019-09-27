@@ -1,4 +1,4 @@
-module.exports = function(title, context) {
+module.exports = function(title) {
     title = title.replace(/ ?\(.*[rR]emaster.*\)/, '');
     let split = title.split(' - ');
 
