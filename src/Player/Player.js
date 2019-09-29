@@ -16,7 +16,7 @@ class Player extends Component {
         this.loaded = false;
         this.playing = false;
 
-        this.root.innerHTML = this.render({ loaded: this.loaded });
+        this.update({ loaded: this.loaded });
 
         spotify.onPlay(this.play);
         spotify.onPause(this._pause);
@@ -36,7 +36,7 @@ class Player extends Component {
         this.playing = playing;
 
         this.root.classList.add('active');
-        this.root.innerHTML = this.render({ 
+        this.update({ 
             loaded: true, 
             playing: this.playing,
             album: album,

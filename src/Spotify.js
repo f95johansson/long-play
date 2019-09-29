@@ -62,7 +62,7 @@ class Spotify {
                         this._distribute(this.pauseListeners);
                     }
                 }
-            });
+            })
         }, 2000);
     }
 
