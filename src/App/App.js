@@ -31,6 +31,15 @@ class App extends Component {
         document.getElementById('login-button').addEventListener('click', this.login);
         document.getElementById('logout-button').addEventListener('click', this.logout);
         this.checkLogin();
+
+
+        // navigator.mediaDevices.getUserMedia({ audio: true })
+        // .then(function(stream) {
+        //   console.log(stream)
+        // })
+        // .catch(function(err) {
+        //   console.log(err)
+        // });
     }
 
     update() {

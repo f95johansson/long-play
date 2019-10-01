@@ -159,12 +159,54 @@
     }
 }
 
+.lp {
+    position: absolute;
+    top: -600px;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    animation: spinner 5s linear infinite;
+
+    &.cutout {
+        //animation: spinner 5s linear infinite;
+        animation: none;
+        transform: rotate(-40deg);
+    }
+}
+
 @keyframes spinner {
     from {
         transform: rotate(0deg);
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(-40deg);
+    }
+    10% {
+        transform: rotate(-39.5deg);
+    }
+    25% {
+        transform: rotate(-41deg);
+    }
+    33% {
+        transform: rotate(-39.5deg);
+    }
+    57% {
+        transform: rotate(-40.5deg);
+    }
+    80% {
+        transform: rotate(-39deg);
+    }
+    93% {
+        transform: rotate(-40.5deg);
+    }
+    100% {
+        transform: rotate(-40deg);
     }
 }
 
