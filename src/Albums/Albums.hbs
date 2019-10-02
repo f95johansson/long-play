@@ -1,24 +1,29 @@
-<div class="nav">
-    <span data-id="alphabet" class="tab {{#ifCond active '==' 'alphabet'}}active{{/ifCond}}">Alphabet</span>
-    <span> | </span>
-    <span data-id="year" class="tab {{#ifCond active '==' 'year'}}active{{/ifCond}}">Year</span>
-    <span> | </span>
-    <span data-id="sorted" class="tab {{#ifCond active '==' 'sorted'}}active{{/ifCond}}">Sorted</span>
-</div>
+<div id="albums">
 
-
-<div class="grid">
-  {{#each albums}}
-    <div class="stack">
-        {{#second this }}
-            <div class="covers">
-                {{#each this }}
-                    <img id={{ this.id }} class="album" src={{ this.images.0.url }} draggable="false">
-                {{/each}}
-            </div>
-        {{/second}}
-
-        <span class="label">{{ 0 }}</span>
+    <div class="nav">
+        <span data-id="alphabet" class="tab {{#ifCond active '==' 'alphabet'}}active{{/ifCond}}">Alphabet</span>
+        <span> | </span>
+        <span data-id="year" class="tab {{#ifCond active '==' 'year'}}active{{/ifCond}}">Year</span>
+        <span> | </span>
+        <span data-id="sorted" class="tab {{#ifCond active '==' 'sorted'}}active{{/ifCond}}">Sorted</span>
     </div>
-  {{/each}}
+
+
+    <div class="grid">
+      {{#each albums}}
+        <div class="stack">
+            {{#second this }}
+                <div class="covers">
+                    {{#each this }}
+                        <img id={{ this.id }} class="album" src="{{ this.images.1.url }}" draggable="false">
+                    {{/each}}
+                </div>
+                <span class="size">Amount: {{length this }}</span>
+            {{/second}}
+
+            <span class="label">{{ 0 }}</span>
+        </div>
+      {{/each}}
+    </div>
+
 </div>

@@ -118,6 +118,23 @@
     .number {
         margin-left: 24px;
     }
+    .track:hover .number {
+        visibility: hidden;
+        position: relative;
+
+        &:before {
+            visibility: visible;
+            background-image: url('../assets/images/ic_play_arrow_white_48px.svg');
+            background-size: 30px 30px;
+            background-repeat: no-repeat;
+            position: absolute;
+            display: inline-block;
+            width: 30px; 
+            height: 30px;
+            margin-left: -10px;
+            content: '';
+        }
+    }
 
     .title {
         display: inline-block;

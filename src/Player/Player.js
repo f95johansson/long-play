@@ -45,15 +45,7 @@ class Player extends Component {
             albumCover: album.images[0].url});
 
         this.root.querySelector('.track.active').scrollIntoView({ behavior: 'smooth' });
-        this.root.querySelector('.album-art').addEventListener('click', e => {
-            this.root.querySelector('.album-art').classList.toggle('playing');
-            if (this.playing) {
-                this.pause();
-            } else {
-                this.resume();
-            }
-            e.stopPropagation()
-        });
+        this.root.querySelector('.album-art').addEventListener('click', this.toggle);
         this.root.querySelector('.display').addEventListener('click', this.toggleExpand);
 
         Vibrant.from(album.images[0].url).getPalette()
@@ -65,6 +57,16 @@ class Player extends Component {
             this._pause()
         }
         this.expand()
+    }
+
+    toggle(e) {
+        this.root.querySelector('.album-art').classList.toggle('playing');
+        if (this.playing) {
+            this.pause();
+        } else {
+            this.resume();
+        }
+        e.stopPropagation()
     }
 
     resume() {

@@ -1,6 +1,8 @@
 import SpotifyWebApi from 'spotify-web-api-js';
 import autoBind from 'auto-bind';
 
+import { randint } from 'Utils';
+
 class Spotify {
     constructor() {
         this.api = new SpotifyWebApi();
@@ -13,7 +15,11 @@ class Spotify {
         this.loggedOutListeners = new Set();
 
         this.albums = [];
-        this.albumsById = {}
+        this.albumsById = {};
+
+        this.tracks = [];
+        this.trackAlbums = [];
+        this.trackAlbumsById = {};
 
         this.lastPlayedAlbum = null;
 
@@ -70,8 +76,12 @@ class Spotify {
         this.albums = [];
         if (process.env.DEV && localStorage.getItem('albums') !==  null) {
             this.albums = JSON.parse(localStorage.getItem('albums'));
+            this.trackAlbums = JSON.parse(localStorage.getItem('trackAlbums'));
             for (let album of this.albums) {
                 this.albumsById[album.id] = album;
+            }
+            for (let album of this.trackAlbums) {
+                this.trackAlbumsById[album.id] = album;
             }
             this._distribute(this.updateListeners)
             // this.api.getMyRecentlyPlayedTracks().then(response => {
@@ -80,8 +90,13 @@ class Spotify {
         } else {
 
             this._downloadAlbums().then(() => {
+                return this._downloadTracks();
+            }).then(() => {
+                this.trackAlbums = Object.values(this.trackAlbumsById);
+
                 console.log('loaded new albums')
-                if (process.env.DEV) { localStorage.setItem('albums', JSON.stringify(this.albums)) };
+                if (process.env.DEV) { localStorage.setItem('albums', JSON.stringify(this.albums)) }
+                if (process.env.DEV) { localStorage.setItem('trackAlbums', JSON.stringify(this.trackAlbums)) }
                 return this.api.getMyRecentlyPlayedTracks();
             }).then(response => {
                 this._distribute(this.updateListeners);
@@ -89,11 +104,30 @@ class Spotify {
         }
     }
 
+    _downloadTracks(offset=0) {
+        return this.api.getMySavedTracks({limit: 50, offset: offset}).then(response => {
+            let tracks = response.items.map(info => info.track)
+            this.tracks.extend(tracks.map(() => 1));
+
+            for (let track of tracks) {
+                let [album, cleanTrack] = reverseTrackAlbum(track);
+                if (this.trackAlbums[album.id]) {
+                    this.trackAlbumsById[album.id].tracks.items.push(cleanTrack)
+                } else {
+                    this.trackAlbumsById[album.id] = album;
+                }
+            }
+            if (this.tracks.length < response.total) {
+                return this._downloadTracks(offset=offset + 50);
+            }            
+        });
+    }
+
     _downloadAlbums(offset=0) {
         return this.api.getMySavedAlbums({limit: 50, offset: offset}).then(response => {
-
-            this.albums.extend(response.items.map(info => info.album));
-            for (let album of this.albums) {
+            let albums = response.items.map(info => cleanAlbum(info.album))
+            this.albums.extend(albums);
+            for (let album of albums) {
                 this.albumsById[album.id] = album;
             }
             if (this.albums.length < response.total) {
@@ -111,7 +145,9 @@ class Spotify {
         this.api.play({context_uri: album.uri, offset: {position: trackNumber-1}}).then(reponse => {
             this.lastPlayedAlbum = album.id;
             this.lastPlayedTrackNumber = trackNumber;
-            this._distribute(this.playListeners, album, trackNumber);
+            this.loadAlbum(album.id).then(fullAlbum => {
+                this._distribute(this.playListeners, fullAlbum, trackNumber);
+            })
         }).catch(err => {
             if (err.status === 404) {
                 return this.api.getMyDevices();
@@ -152,11 +188,11 @@ class Spotify {
     }
 
     getAlbum(id) {
-        return this.albumsById[id];
+        return this.albumsById[id] || this.trackAlbumsById[id];
     }
 
     getAlbums() {
-        return this.albums;
+        return [...this.albums, ...this.trackAlbums];
     }
 
     getAlbumsGrouped(grouping='alphabet') {
@@ -172,7 +208,7 @@ class Spotify {
             }
             
             if (albumsGrouped[group]) {
-                albumsGrouped[group].push(album);
+                albumsGrouped[group].splice(randint(albumsGrouped[group].length), 0, album); // insert at a random location
             } else {
                 albumsGrouped[group] = [album];
             }
@@ -244,8 +280,61 @@ class Spotify {
     }
 }
 
-function cleanAlbums(albums) {
+function reverseTrackAlbum(track) {
+    return [{
+        "album_type": track.album.album_type,
+        "artists": track.album.artists.map(cleanArtist),
+        "id": track.album.id,
+        "images": track.album.images.map(cleanImage),
+        "name": track.album.name,
+        "release_date": track.album.release_date,
+        "total_tracks": track.album.total_tracks,
+        "tracks": {
+            "items": [cleanTrack(track)]
+        },
+        "uri": track.album.uri
+    }, cleanTrack(track)];
+}
 
+function cleanAlbum(album) {
+    return {
+        "album_type": album.album_type,
+        "artists": album.artists.map(cleanArtist),
+        "id": album.id,
+        "images": album.images.map(cleanImage),
+        "name": album.name,
+        "release_date": album.release_date,
+        "total_tracks": album.total_tracks,
+        "tracks": {
+            "items": album.tracks.items.map(cleanTrack)
+        },
+        "uri": album.uri
+    };
+}
+
+function cleanTrack(track) {
+    return {
+        "disc_number": track.disc_number,
+        "duration_ms": track.duration_ms,
+        "id": track.id,
+        "name": track.name,
+        "track_number": track.track_number,
+        "uri": track.uri
+    };
+}
+
+function cleanArtist(artist) {
+    return {
+        "id": artist.id,
+        "name": artist.name,
+        "uri": artist.uri
+    };
+}
+
+function cleanImage(image) {
+    return {
+        "url": image.url
+    };
 }
 
 function onlyYear(year) {

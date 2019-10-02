@@ -1,4 +1,4 @@
-<div id="player">
+<div id="player" {{#if loaded }}class="active"{{/if}}>
 
     {{#if loaded }}
         <div class="album-art {{#if playing }}playing{{/if}}">
@@ -8,7 +8,7 @@
         </div>
     {{/if}}
 
-    <div class="display">
+    <div class="display component">
         <h1 class="track-info">{{ trackInfo }}</h1>
         <h1 class="track-info">{{ trackInfo }}</h1>
     </div>
