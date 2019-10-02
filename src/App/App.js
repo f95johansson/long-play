@@ -1,6 +1,8 @@
 import '../../index.html';
 
 import Component from 'Component';
+import autoBind from 'auto-bind';
+
 import Spotify from 'Spotify';
 import Deck from 'Deck/Deck';
 import Albums from 'Albums/Albums';
@@ -9,10 +11,8 @@ import Player from 'Player/Player';
 
 import './App.scss';
 
-class App extends Component {
+class App {
     constructor() {
-        super();
-        
 
         this.spotify = new Spotify();
         this.player = {};
@@ -27,6 +27,7 @@ class App extends Component {
         this.albums = new Albums(document.querySelector('#albums'), this.flipper, this.spotify);
         this.player = new Player(document.querySelector('#player'), this.spotify);
 
+        autoBind(this);
 
         document.getElementById('login-button').addEventListener('click', this.login);
         document.getElementById('logout-button').addEventListener('click', this.logout);

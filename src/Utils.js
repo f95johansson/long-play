@@ -11,6 +11,32 @@ export function childIndex(elem){
     return i;
 }
 
+export function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+export function randint(top, floor=0) {
+    return floor + Math.floor((Math.random() * (top-floor)));
+}
+
+export function inViewport(element) {
+    const rect = element.getBoundingClientRect();
+    if (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth) &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+    ) {
+        console.log('In the viewport!');
+    } else {
+        console.log('Not in the viewport... whomp whomp');
+    }
+}
+
 // https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 const pSBC = (p,c0,c1,l) => {
     let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
@@ -44,3 +70,4 @@ export function darken(color, amount) {
 export function lighten(color, amount) {
     return pSBC(amount, color, false, true);
 }
+

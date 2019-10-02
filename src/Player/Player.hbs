@@ -1,37 +1,37 @@
+<div id="player" {{#if loaded }}class="active"{{/if}}>
 
-
-{{#if loaded }}
-    <div class="album-art {{#if playing }}playing{{/if}}">
-        <img class="cover" src="{{ albumCover }}" alt="Currently playing album art">
-        {{{importSvg 'ic_pause_circle_filled_48px.svg' }}}
-        {{{importSvg 'ic_play_circle_filled_48px.svg' }}}
-    </div>
-{{/if}}
-
-<div class="display">
-    <h1 class="track-info">{{ trackInfo }}</h1>
-    <h1 class="track-info">{{ trackInfo }}</h1>
-</div>
-
-<div class="content">
     {{#if loaded }}
-        <span class="album-name">{{removeRemaster album.name }}</span>
-        <span class="artist-name">{{removeRemaster album.artists.0.name }}</span>
-        <ul class="track-list">
-            {{#each album.tracks.items }}
-                <li class="track {{#ifCond ../currentTrackNumber '==' track_number }}active{{/ifCond}}">
-                    <span class="number">{{ track_number }}</span>
-                    <span class="title">{{removeRemaster name }}</span>
-                    <span class="length">{{msToMin duration_ms }}</span>
-                </li>
-            {{/each}}
-        <ul>
+        <div class="album-art {{#if playing }}playing{{/if}}">
+            <img class="cover" src="{{ albumCover }}" alt="Currently playing album art">
+            {{{importSvg 'ic_pause_circle_filled_48px.svg' }}}
+            {{{importSvg 'ic_play_circle_filled_48px.svg' }}}
+        </div>
     {{/if}}
+
+    <div class="display component">
+        <h1 class="track-info">{{ trackInfo }}</h1>
+        <h1 class="track-info">{{ trackInfo }}</h1>
+    </div>
+
+    <div class="content">
+        {{#if loaded }}
+            <span class="album-name">{{removeRemaster album.name }}</span>
+            <span class="artist-name">{{removeRemaster album.artists.0.name }}</span>
+            <ul class="track-list">
+                {{#each album.tracks.items }}
+                    <li class="track {{#ifCond ../currentTrackNumber '==' track_number }}active{{/ifCond}}">
+                        <span class="number">{{ track_number }}</span>
+                        <span class="title">{{removeRemaster name }}</span>
+                        <span class="length">{{msToMin duration_ms }}</span>
+                    </li>
+                {{/each}}
+            <ul>
+        {{/if}}
+    </div>
+
+    <img class="lp" src={{image 'lp.png'}}>
+    <img class="lp cutout" src={{image 'lp-cutout.png'}}>
 </div>
-
-<img class="lp" src={{image 'lp.png'}}>
-<img class="lp cutout" src={{image 'lp-cutout.png'}}>
-
 
 {{!--
 <div class="spotify-player">

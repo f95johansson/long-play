@@ -17,14 +17,14 @@ class Deck extends Component {
 
         this.active = localStorage.getItem('long-play-deck-menu') || 'recent';
 
-        this.spotify.onPlay(this.update)
+        this.spotify.onPlay(this._update)
         
-        this.update();
+        this._update();
     }
 
-    update() {
+    _update() {
         let albums = this.spotify.getRecentlyPlayed();
-        this.root.innerHTML = this.render({albums, active: this.active});
+        this.update({albums, active: this.active});
         this.root.querySelectorAll('.nav .tab').forEach(tab => tab.addEventListener('click', this.navSelect));
         this.root.querySelectorAll('.album').forEach(stack => stack.addEventListener('click', this.flip));
     }

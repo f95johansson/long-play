@@ -48,7 +48,7 @@ class Flipper extends Component {
 
         Vibrant.from(albumView.src).getPalette()
         .then((palette) => {
-            let flipperView = htmlToElement(this.render({ albumCover: albumView.src, coverColor: palette.DarkVibrant.getHex(), album: album }))
+            let flipperView = this.renderElement({ albumCover: albumView.src, coverColor: palette.DarkVibrant.getHex(), album: album });
             flipperView.style.top = top+'px';
             flipperView.style.left = left+'px';
             flipperView.style.width = width+'px';
@@ -81,7 +81,7 @@ class Flipper extends Component {
         this.flippers.push([flipperView, albumView]);
         this.active.querySelectorAll('.track').forEach(track => 
             track.addEventListener('click', e => {
-                this.spotify.play(album, childIndex(e.target.closest('.track'))+1);
+                this.spotify.play(album, parseInt(e.target.closest('.track').querySelector('.number').innerHTML) || 1);
                 e.stopPropagation();
             }
         ));
