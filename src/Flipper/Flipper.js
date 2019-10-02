@@ -21,7 +21,7 @@ class Flipper extends Component {
         
 
 
-        document.body.addEventListener('click', e => {
+        document.querySelector('#albums').addEventListener('click', e => {
             if (!e.target.closest('.flipper')) {
                 this.close();
             }
@@ -44,7 +44,10 @@ class Flipper extends Component {
         // tanslate out from window edges
         let margin = 40;
         let topToTranlate   = Math.min(Math.max(position.top,  (537-height)/2 + margin), window.innerHeight - (537+height)/2 - margin) + window.scrollY - top;
-        let leftToTranslate = Math.min(Math.max(position.left, (537-width)/2 + margin),  window.innerWidth  - (537+width)/2  - margin) + window.scrollX - left;
+        let leftToTranslate = 0;
+        if (window.innerWidth > 642) {
+            leftToTranslate = Math.min(Math.max(position.left, (537-width)/2 + margin),  window.innerWidth  - (537+width)/2  - margin) + window.scrollX - left;
+        }
 
         Vibrant.from(albumView.src).getPalette()
         .then((palette) => {
@@ -85,6 +88,8 @@ class Flipper extends Component {
                 e.stopPropagation();
             }
         ));
+
+        this.active.querySelector('.close').addEventListener('click', this.close);
 
         for (var i = this.flippers.length - 1; i >= 0; i--) {
             let [flipper, albumView] = this.flippers[i];

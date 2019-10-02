@@ -1,0 +1,12 @@
+@mixin breakpoint($high, $low: 0) {
+    @if $low == 0 {
+        @media screen and (max-width: $high) { 
+            @content;
+        }
+    } @else {
+        // high is actually low
+        @media screen and (min-width: $hight) and  (max-width: $low) { 
+            @content;
+        }
+    }
+}

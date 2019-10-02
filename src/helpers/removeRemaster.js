@@ -1,5 +1,6 @@
 module.exports = function(title) {
     title = title.replace(/ ?\(.*[rR]emaster.*\)/, '');
+    title = title.replace(/ ?\[.*[rR]emaster.*\]/, '');
     let split = title.split(' - ');
 
     if (split.length > 2 

@@ -25,16 +25,20 @@ export function randint(top, floor=0) {
 
 export function inViewport(element) {
     const rect = element.getBoundingClientRect();
-    if (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-    ) {
-        console.log('In the viewport!');
-    } else {
-        console.log('Not in the viewport... whomp whomp');
-    }
+    return (
+        rect.top + rect.height    >= 0 &&
+        rect.left + rect.width    >= 0 &&
+        rect.bottom - rect.height <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right - rect.width   <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+Array.prototype.last = function() {
+    return this[this.length - 1];
+}
+
+Array.prototype.first = function() {
+    return this[0];
 }
 
 // https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors

@@ -1,3 +1,4 @@
+@import 'src/styles/mixins.scss';
 
 #deck {
     max-height:  348px;
@@ -9,6 +10,16 @@
     padding: 40px 47px;
     position: relative;
     text-align: center;
+
+    @include breakpoint(642px) {
+        padding-right: 20px;
+        padding-left:  20px;
+    }
+
+    @include breakpoint(1240px) {
+        margin-right: 20px;
+        margin-left:  20px;
+    }
 
     .album {
         width: calc(25% - 9px); // 9 = 3 * 12px margins / 4 covers
@@ -34,12 +45,28 @@
             font-size: 24px;
             color: rgba(white, .5);
             transition: color .2s, font-size .2s;
+
+            @include breakpoint(480px) {
+                font-size: 18px;
+            }
+
+            @include breakpoint(360px) {
+                font-size: 16px;
+            }
         }
 
         .active {
             font-weight: 500;
             font-size: 43px;
             color: white;
+
+            @include breakpoint(480px) {
+                font-size: 28px;
+            }
+
+            @include breakpoint(360px) {
+                font-size: 22px;
+            }
         }
     }
 }

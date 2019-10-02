@@ -1,3 +1,5 @@
+@import 'src/styles/mixins.scss';
+
 #player {
     position: fixed;
     bottom: -85px;
@@ -10,6 +12,14 @@
     box-shadow: 0 2px 40px rgba(black, .5);
     transition: transform .3s;
     transform: translateY(0px);
+
+    @include breakpoint(602px) {
+        width: 100%;
+
+        .display {
+            opacity: 0;
+        }
+    }
 
     &.active {
         transform: translateY(-84px);
@@ -105,7 +115,7 @@
             margin-bottom: 5px;
             margin-left: auto;
             margin-right: auto;
-            width: 514px;
+            max-width: 514px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -119,11 +129,19 @@
             box-sizing: border-box;
             text-align: left;
             overflow-y: scroll;
+
+            @include breakpoint(500px) {
+                font-size: 16px;
+            }
         }
 
         .track {
             height: 30px;
             line-height: 30px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
 
 
             &.active {
@@ -135,21 +153,28 @@
 
         .number {
             margin-left: 24px;
+
+            flex: 0 0 auto;
         }
 
         .title {
             display: inline-block;
             margin-left: 16px;
+            margin-right: 10px;
             width: 312px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             vertical-align: bottom; // because the overflow in .title makes the .number have a lower baseline
+
+            flex:1 1 auto;
         }
 
         .length {
-            float: right;
+            //float: right;
             margin-right: 27px;
+
+            flex: 0 0 auto;
         }
     }
 

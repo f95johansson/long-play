@@ -2,8 +2,9 @@ import autoBind from 'auto-bind';
 import { DiffDOM } from "diff-dom"
 
 class Component {
-    constructor(template) {
+    constructor(template, root) {
         this.template = template;
+        this.root = root;
         this.events = {};
 
         this._differ = new DiffDOM({

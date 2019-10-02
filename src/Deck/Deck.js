@@ -8,10 +8,9 @@ import './Deck.scss';
 
 class Deck extends Component {
     constructor(root, flipper, spotify) {
-        super(view);
+        super(view, root);
         autoBind(this);
 
-        this.root = root;
         this.flipper = flipper;
         this.spotify = spotify;
 

@@ -1,5 +1,6 @@
 @import 'src/styles/reset.scss';
 @import 'src/styles/fonts.scss';
+@import 'src/styles/mixins.scss';
 
 html {
     min-height: 100%;
@@ -40,7 +41,12 @@ header {
     text-align: center;
     position: relative;
 
-     .logo {
+    @include breakpoint(400px) {
+        text-align: left;
+        margin-left: 30px;
+    }
+
+    .logo {
         display: inline-block;
         line-height: 80px;
         font-family: 'Noir', sans-serif;

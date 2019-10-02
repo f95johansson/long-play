@@ -5,7 +5,7 @@
         <span> | </span>
         <span data-id="year" class="tab {{#ifCond active '==' 'year'}}active{{/ifCond}}">Year</span>
         <span> | </span>
-        <span data-id="sorted" class="tab {{#ifCond active '==' 'sorted'}}active{{/ifCond}}">Sorted</span>
+        <span data-id="artist" class="tab {{#ifCond active '==' 'artist'}}active{{/ifCond}}">Artist</span>
     </div>
 
 
@@ -15,7 +15,7 @@
             {{#second this }}
                 <div class="covers">
                     {{#each this }}
-                        <img id={{ this.id }} class="album" src="{{ this.images.1.url }}" draggable="false">
+                        <img id={{ this.id }} class="album" src="{{ this.images.0.url }}" draggable="false">
                     {{/each}}
                 </div>
                 <span class="size">Amount: {{length this }}</span>

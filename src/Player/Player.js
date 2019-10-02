@@ -9,8 +9,7 @@ import './Player.scss';
 
 class Player extends Component {
     constructor(root, spotify) {
-        super(view);
-        this.root = root;
+        super(view, root);
         this.spotify = spotify;
 
         this.loaded = false;

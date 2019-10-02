@@ -44,7 +44,7 @@ class Spotify {
     }
 
     checkPlaying() {
-        setInterval(() => {
+        let checker = setInterval(() => {
             this.isPlaying().then(context => {
                 if (context && context.is_playing) {
                     if (context.item.album.id !== this.lastPlayedAlbum || context.item.track_number !== this.lastPlayedTrackNumber) {
@@ -67,6 +67,12 @@ class Spotify {
                     } else {
                         this._distribute(this.pauseListeners);
                     }
+                }
+            }).catch(err => {
+                if (err.status == 401) {
+                    console.log('loggedOut');
+                    clearInterval(checker);
+                    this._distribute(this.loggedOutListeners);
                 }
             })
         }, 2000);
@@ -201,6 +207,8 @@ class Spotify {
             let group
             if (grouping === 'alphabet') {
                 group = album.name[0].toUpperCase();
+            } else if (grouping === 'artist') {
+                group = album.artists[0].name[0].toUpperCase();
             } else if (grouping === 'year') {
                 group = parseInt(onlyYear(album.release_date)) | 0;
             } else {
