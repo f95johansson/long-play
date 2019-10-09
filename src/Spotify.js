@@ -45,7 +45,7 @@ class Spotify {
 
     checkPlaying() {
         let checker = setInterval(() => {
-            this.isPlaying().then(context => {
+            this.api.getMyCurrentPlaybackState().then(context => {
                 if (context && context.is_playing) {
                     if (context.item.album.id !== this.lastPlayedAlbum || context.item.track_number !== this.lastPlayedTrackNumber) {
                         this.loadAlbum(context.item.album.id)
@@ -78,9 +78,9 @@ class Spotify {
         }, 2000);
     }
 
-    _downloadLibrary() {
+    _downloadLibrary(force=false) {
         this.albums = [];
-        if (process.env.DEV && localStorage.getItem('albums') !==  null) {
+        if (!force && localStorage.getItem('albums') !==  null) {
             this.albums = JSON.parse(localStorage.getItem('albums'));
             this.trackAlbums = JSON.parse(localStorage.getItem('trackAlbums'));
             for (let album of this.albums) {
@@ -101,8 +101,8 @@ class Spotify {
                 this.trackAlbums = Object.values(this.trackAlbumsById);
 
                 console.log('loaded new albums')
-                if (process.env.DEV) { localStorage.setItem('albums', JSON.stringify(this.albums)) }
-                if (process.env.DEV) { localStorage.setItem('trackAlbums', JSON.stringify(this.trackAlbums)) }
+                localStorage.setItem('albums', JSON.stringify(this.albums));
+                localStorage.setItem('trackAlbums', JSON.stringify(this.trackAlbums));
                 return this.api.getMyRecentlyPlayedTracks();
             }).then(response => {
                 this._distribute(this.updateListeners);

@@ -46,10 +46,20 @@ class Player extends Component {
         this.root.querySelector('.track.active').scrollIntoView({ behavior: 'smooth' });
         this.root.querySelector('.album-art').addEventListener('click', this.toggle);
         this.root.querySelector('.display').addEventListener('click', this.toggleExpand);
+        this.root.querySelector('.fullscreen-button').addEventListener('click', this.toggleFullscreen);
+        this.root.querySelectorAll('.track').forEach(track => {
+            track.removeEventListener('click', 'player.play-track');
+            track.addEventListener('click', 'player.play-track', e => {
+                console.log(album.name);
+                this.spotify.play(album, parseInt(e.target.closest('.track').querySelector('.number').innerHTML) || 1);
+                e.stopPropagation();
+            })
+        });
 
         Vibrant.from(album.images[0].url).getPalette()
         .then((palette) => {
             this.root.querySelector('.content').style.background = `linear-gradient(#190511, ${darken(palette.DarkVibrant.getHex(), .5)})`;
+            this.root.style.background = `radial-gradient(${darken(palette.DarkVibrant.getHex(), .5)}, #190511)`;
         });
 
         if (!playing) {
@@ -98,6 +108,12 @@ class Player extends Component {
 
     toggleExpand() {
         this.root.classList.toggle('expanded');
+    }
+
+    toggleFullscreen() {
+        this.root.style.transition = '';
+        
+        this.root.classList.toggle('fullscreen');
     }
 }
 

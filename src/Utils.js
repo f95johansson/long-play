@@ -41,6 +41,12 @@ Array.prototype.first = function() {
     return this[0];
 }
 
+export function nextFrame() {
+    return new Promise((resolve, reject) => {
+        
+    })
+}
+
 // https://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color-or-rgb-and-blend-colors
 const pSBC = (p,c0,c1,l) => {
     let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";

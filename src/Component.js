@@ -48,4 +48,37 @@ function htmlToElement(html) {
     return template.content.firstChild;
 }
 
+
+/**
+ * To ease using lambdas with add event listener and updating, and
+ * id can be specified (after the type paramater) to keep track of
+ * the specific listener. A listener with and id can be removed
+ * using the same id. And id must be a number or and string unique
+ * to the specific HTMLElement.
+ */
+const superAddEventListener = HTMLElement.prototype.addEventListener;
+HTMLElement.prototype.addEventListener = function(type, id, listener, ...options) {
+    if (typeof id === 'number' || typeof id === 'string') {
+        if (!this._eventListeners) {
+            this._eventListeners = {};
+        }
+        this._eventListeners[id] = listener;
+        superAddEventListener.call(this, type, listener, ...options)
+    } else {
+        superAddEventListener.call(this, type, id, listener, ...options)
+    }
+}
+
+const superRemoveEventListener = HTMLElement.prototype.removeEventListener;
+HTMLElement.prototype.removeEventListener = function(type, id, ...options) {
+    if (typeof id === 'number' || typeof id === 'string') {
+        if (this._eventListeners) {
+            const listener = this._eventListeners[id];
+            superRemoveEventListener.call(this, type, listener, ...options)
+        }
+    } else {
+        superRemoveEventListener.call(this, type, id, ...options)
+    }
+}
+
 export default Component;

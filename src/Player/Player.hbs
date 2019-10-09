@@ -5,10 +5,12 @@
             <img class="cover" src="{{ albumCover }}" alt="Currently playing album art">
             {{{importSvg 'ic_pause_circle_filled_48px.svg' }}}
             {{{importSvg 'ic_play_circle_filled_48px.svg' }}}
+            <img class="lp" src="{{image 'lp.png'}}">
+            <img class="lp cutout" src="{{image 'lp-cutout.png'}}">
         </div>
     {{/if}}
 
-    <div class="display component">
+    <div class="display">
         <h1 class="track-info">{{ trackInfo }}</h1>
         <h1 class="track-info">{{ trackInfo }}</h1>
     </div>
@@ -25,12 +27,15 @@
                         <span class="length">{{msToMin duration_ms }}</span>
                     </li>
                 {{/each}}
-            <ul>
+            </ul>
         {{/if}}
     </div>
 
-    {{!--<img class="lp" src="{{image 'lp.png'}}">--}}
-    {{!--<img class="lp cutout" src="{{image 'lp-cutout.png'}}">--}}
+
+    <div class="fullscreen-button">
+        <img class="enter" src="{{image 'ic_fullscreen_white_48px.svg' }}"/>
+        <img class="exit" src="{{image 'ic_fullscreen_exit_white_48px.svg' }}"/>
+    </div>
 </div>
 
 {{!--
