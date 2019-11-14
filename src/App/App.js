@@ -8,11 +8,13 @@ import Deck from 'Deck/Deck';
 import Albums from 'Albums/Albums';
 import Flipper from 'Flipper/Flipper';
 import Player from 'Player/Player';
+import setupVhCalculator from 'vhCalculator';
 
 import './App.scss';
 
 class App {
     constructor() {
+        setupVhCalculator();
 
         this.spotify = new Spotify();
         this.player = {};

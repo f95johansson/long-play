@@ -2,7 +2,7 @@ import * as Vibrant from 'node-vibrant'
 
 import Component from 'Component';
 import removeRemaster from 'helpers/removeRemaster';
-import { darken } from 'Utils'; 
+import { darken, nextFrame } from 'Utils'; 
 
 import view from './Player.hbs';
 import './Player.scss';
@@ -37,6 +37,7 @@ class Player extends Component {
         this.root.classList.add('active');
         this.update({ 
             loaded: true, 
+            fullscreen: this.root.classList.contains('fullscreen'),
             playing: this.playing,
             album: album,
             currentTrackNumber: trackNumber,
@@ -84,6 +85,7 @@ class Player extends Component {
 
     _resume() {
         this.root.querySelector('.album-art .cover').style.animationPlayState = 'running';
+        this.root.querySelector('.album-art .lp:not(.cutout)').style.animationPlayState = 'running';
         this.root.querySelectorAll('.track-info').forEach(trackInfo => trackInfo.style.animationPlayState = 'running');
         this.playing = true;
     }
@@ -94,6 +96,7 @@ class Player extends Component {
 
     _pause() {
         this.root.querySelector('.album-art .cover').style.animationPlayState = 'paused';
+        this.root.querySelector('.album-art .lp:not(.cutout)').style.animationPlayState = 'paused';
         this.root.querySelectorAll('.track-info').forEach(trackInfo => trackInfo.style.animationPlayState = 'paused');
         this.playing = false;
     }
@@ -111,9 +114,19 @@ class Player extends Component {
     }
 
     toggleFullscreen() {
-        this.root.style.transition = '';
-        
-        this.root.classList.toggle('fullscreen');
+        if (this.root.classList.contains('fullscreen')) {
+            this.root.classList.remove('fullscreen');
+            nextFrame().then(() =>
+                nextFrame()
+            ).then(() => {
+                this.root.style.transitionProperty = null
+            });
+        } else {
+            this.root.style.transitionProperty = 'none';
+            nextFrame().then(() => {
+                this.root.classList.add('fullscreen');
+            });
+        }
     }
 }
 

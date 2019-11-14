@@ -176,7 +176,7 @@ class Albums extends Component {
         }
     }
 
-    _optimizeStack(stack, highQuality=3, visible=6) {
+    _optimizeStack(stack, highQuality=3, visible=7) {
         let stacks = stack.querySelectorAll('img.album');
         for (var j = stacks.length - 1, i = 0; j >= 0; j--, i++) {
             let album = stacks[j];
